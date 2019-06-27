@@ -1,8 +1,8 @@
 import Vue from "vue";
 import Router from "vue-router";
 import Home from "./views/Home.vue";
-import Lobby from "@/views/Lobby.vue";
-import Room from "@/views/Room.vue";
+import Lobby from "@/components/Lobby.vue";
+import Room from "./components/Room.vue";
 
 Vue.use(Router);
 

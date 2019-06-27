@@ -6,7 +6,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    isLogin: "",
+    isLogin: false,
     userName: "",
     roomList: []
   },
@@ -52,8 +52,10 @@ export default new Vuex.Store({
           }
 
           let { email, displayName, photoURL } = user;
+          console.log(JSON.stringify(user))
           localStorage.token = token;
           localStorage.user = JSON.stringify({ email, displayName, photoURL });
+          console.log(user.email)
           localStorage.setItem("userName", user.displayName);
           commit("setIsLogin", true);
           commit("setUserName", user.displayName);

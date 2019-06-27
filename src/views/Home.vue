@@ -27,7 +27,7 @@ export default {
   name: "home",
   components: {
     LoginPage,
-    NavBar
+
   },
   created() {
     this.getAllRooms();
