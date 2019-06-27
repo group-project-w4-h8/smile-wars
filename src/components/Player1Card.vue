@@ -2,24 +2,22 @@
 <v-flex xs5 class="px-3">
     <v-card>
 
-        <v-avatar size="390px">
+        <!-- <v-avatar size="440px"> -->
         <v-img
          v-if="roomDetails.player_1"
          src="https://cdn.vuetifyjs.com/images/cards/halcyon.png"
-        height="390"
         >
         </v-img>
 
         <v-img
         v-else
          src="/avatar.png"
-        height="390"
         >
         </v-img>
             
-        </v-avatar>
+        <!-- </v-avatar> -->
 
-        <v-divider class="mt-2"></v-divider>
+        <v-divider class=""></v-divider>
 
         <v-card-title primary-title class="layout justify-center">
             <div class="headline" v-if="roomDetails.player_1">{{ roomDetails.player_1 }}</div>

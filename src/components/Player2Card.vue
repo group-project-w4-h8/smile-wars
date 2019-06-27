@@ -6,24 +6,24 @@
         >
 
         </v-img> -->
-        <v-avatar size="390">
+        <!-- <v-avatar size="440"> -->
         <v-img
          v-if="roomDetails.player_2"
          src="https://cdn.vuetifyjs.com/images/cards/halcyon.png"
-        height="390"
+        
         >
         </v-img>
 
         <v-img
         v-else
          src="/avatar.png"
-        height="390"
+        
         >
         </v-img>
 
-        </v-avatar>
+        <!-- </v-avatar> -->
 
-        <v-divider class="mt-2"></v-divider>
+        <v-divider class=""></v-divider>
 
         <v-card-title primary-title class="layout justify-center">
             <div class="headline" v-if="roomDetails.player_2">{{ roomDetails.player_2 }}</div>
