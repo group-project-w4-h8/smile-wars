@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
-
-import {firebaseConfig } from 
+import firebase from "firebase";
+import { firebaseConfig } from "@/api/config.js";
 Vue.use(Vuex);
 
 export default new Vuex.Store({
@@ -10,18 +10,19 @@ export default new Vuex.Store({
     userName: ""
   },
   mutations: {
-    setIsLogin(state, data){
-      state.isLogin = data
+    setIsLogin(state, data) {
+      state.isLogin = data;
     },
-    setUserName( state, data){
-      state.userName = data
+    setUserName(state, data) {
+      state.userName = data;
     }
   },
   actions: {
-    login({commit, state}, option) {
+    login({ commit, state }, option) {
       if (!firebase.apps.length) {
         firebase.initializeApp(firebaseConfig);
       }
+      console.log(option, "==========================");
       let provider;
       if (option == "google") {
         provider = new firebase.auth.GoogleAuthProvider();
@@ -56,6 +57,13 @@ export default new Vuex.Store({
         .catch(error => {
           console.log(error);
         });
+    },
+    checkLogin({commit, state}){
+        if(localStorage.token){
+          let user = JSON.parse(localStorage.user)
+          commit("setIsLogin", true)
+          commit("setUserName", user.displayName)
+        }
     }
   }
 });
