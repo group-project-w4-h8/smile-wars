@@ -22,6 +22,20 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
+
+
+          <v-btn icon>
+            <v-img src="/facebook.png" height="50" contain @click="login('facebook')"></v-img>
+          </v-btn>
+
+          <v-btn icon>
+            <v-img src="/github.png" height="50" contain @click="login('github')"></v-img>
+          </v-btn>
+
+          <v-btn icon>
+            <v-img src="/google.png" height="50" contain @click="login('google')"></v-img>
+          </v-btn>
+
           <v-btn color="grey darken-4" flat @click="dialog = false">Cancel</v-btn>
           <v-btn color="grey darken-4" flat @click="login">Login</v-btn>
         </v-card-actions>
@@ -31,9 +45,15 @@
 </template>
 
 <script>
+import swal from "sweetalert2";
+import {mapState} from "vuex";
+
 export default {
     props: ["triggerLogin"],
     name: "LoginButton",
+    computed: {
+    ...mapState(["isLogin"])
+    },
     data () {
       return {
         dialog: false,
@@ -42,14 +62,21 @@ export default {
       }
     },
     methods:{
-      login: function () {
-        
-      }
+      login(provider) {
+        console.log(this.isLogin)
+      this.$store.dispatch("login", provider);
+    }
     },
     watch: {
       triggerLogin: function () {
         this.dialog = true
+      },
+      isLogin() {
+      if (this.isLogin === true) {
+        this.$router.push("/lobby");
+        swal.fire("Yayyy", "Login Success", "success");
       }
+    }
     }
 }
 </script>

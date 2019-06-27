@@ -49,12 +49,14 @@
   </v-app>
 </template>
 
+
 <script>
 import NavBar from "./components/NavBar"
 import RegisterButton from "./components/RegisterButton"
 import LoginButton from "./components/LoginButton"
 import PlayerCard from "./components/PlayerCard"
 
+import { mapActions } from "vuex";
 
 export default {
   name: 'App',
@@ -71,13 +73,17 @@ export default {
       isLogin: false,
     }
   },
+  created() {
+    this.checkLogin();
+  },
   methods: {
     callRegister: function () {
       this.triggerRegister ++
     },
     callLogin: function () {
       this.triggerLogin ++
-    }
+    },
+    ...mapActions(["checkLogin"])
   }
 }
 </script>
