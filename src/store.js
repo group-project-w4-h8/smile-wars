@@ -2,13 +2,16 @@ import Vue from "vue";
 import Vuex from "vuex";
 import firebase from "firebase";
 import { db, firebaseConfig } from "@/api/config.js";
+import audio_1 from "@/assets/Heal8-Bit.ogg";
+import swal from "sweetalert2"
 Vue.use(Vuex);
-
+// console.log(audio_1)
 export default new Vuex.Store({
   state: {
     isLogin: "",
     userName: "",
-    roomList: []
+    roomList: [],
+    login_logout_sound: new Audio(audio_1)
   },
   mutations: {
     setIsLogin(state, data) {
@@ -56,7 +59,25 @@ export default new Vuex.Store({
           localStorage.user = JSON.stringify({ email, displayName, photoURL });
           localStorage.setItem("userName", user.displayName);
           commit("setIsLogin", true);
-          commit("setUserName", user.displayName);
+          commit("setUserName", displayName);
+          let theUser = displayName
+          if(displayName == null){
+            if(email !== null){
+              theUser = email
+            } else {
+              theUser = "anonymous" + new Date().setSeconds()
+            }
+          } 
+          if(email == null){
+            if(displayName !== null){
+              theUser = displayName
+            } else {
+              theUser = "anonymous" + new Date().setSeconds()
+            }
+          }
+          commit("setUserName", theUser);
+          swal.fire("Hello User!", `You are logged in as ${theUser} using ${provider}`, "success")
+          state.login_logout_sound.play();
         })
         .catch(error => {
           console.log(error);
@@ -69,7 +90,7 @@ export default new Vuex.Store({
         commit("setUserName", user.displayName);
       } else {
         commit("setIsLogin", false);
-        commit("setUserName", "")
+        commit("setUserName", "");
       }
     },
     getAllRooms({ commit, state }) {

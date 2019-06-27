@@ -46,6 +46,7 @@ export default {
         .signOut()
         .then(()=> {
           this.$store.dispatch("checkLogin")
+          this.$store.state.login_logout_sound.play()
           swal.fire("Bye bye ;D", "see you soon again", "success");
         })
         .catch(function(error) {
