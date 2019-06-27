@@ -38,6 +38,8 @@ export default new Vuex.Store({
         provider = new firebase.auth.GithubAuthProvider();
       }
 
+      
+
       firebase
         .auth()
         .signInWithPopup(provider)
@@ -75,6 +77,7 @@ export default new Vuex.Store({
       }
     },
     getAllRooms({ commit, state }) {
+      console.log("ASDASDASD")
       db.collection("rooms").onSnapshot(querySnapshot => {
         let list = [];
         querySnapshot.forEach(doc => {
@@ -84,6 +87,7 @@ export default new Vuex.Store({
           });
         });
         commit("setAllRooms", list);
+        console.log(list)
       });
     }
   }
