@@ -1,8 +1,8 @@
 <template>
   <v-app>
-    <NavBar @TriggerLogin="callLogin" @TriggerRegister="callRegister"></NavBar>
+    <NavBar></NavBar>
       <v-parallax
-      v-show="isLogin"
+      v-show="!$store.state.isLogin"
       dark
       src="/parallax.webp"
       height=1000
@@ -15,33 +15,15 @@
       <h1 class="display-2 font-weight-thin mb-3">Vuetify.js</h1>
       <h4 class="subheading">Build your application today!</h4>
     
-      <RegisterButton :triggerRegister="triggerRegister"></RegisterButton>
-      <LoginButton :triggerLogin="triggerLogin"></LoginButton>
+      <LoginButton></LoginButton>
 
     
     </v-layout>
   </v-parallax>
     <v-content>
       <v-container>
-        <v-layout row>
+        <router-view></router-view>
         
-          <PlayerCard></PlayerCard>
-
-          <v-flex xs1 style="margin-top:16%;">
-            <v-img
-            src="/versus.jpg"
-            height="110"
-            >
-
-            </v-img>
-          </v-flex>
-
-          <PlayerCard></PlayerCard>
-
-         
-          
-
-        </v-layout>
 
       </v-container>
 
@@ -52,7 +34,6 @@
 
 <script>
 import NavBar from "./components/NavBar"
-import RegisterButton from "./components/RegisterButton"
 import LoginButton from "./components/LoginButton"
 import PlayerCard from "./components/PlayerCard"
 
@@ -62,7 +43,6 @@ export default {
   name: 'App',
   components: {
    NavBar,
-   RegisterButton,
    LoginButton,
    PlayerCard
   },
@@ -70,19 +50,12 @@ export default {
     return {
       triggerRegister: 0,
       triggerLogin: 0,
-      isLogin: false,
     }
   },
   created() {
     this.checkLogin();
   },
   methods: {
-    callRegister: function () {
-      this.triggerRegister ++
-    },
-    callLogin: function () {
-      this.triggerLogin ++
-    },
     ...mapActions(["checkLogin"])
   }
 }

@@ -49,7 +49,6 @@ import swal from "sweetalert2";
 import {mapState} from "vuex";
 
 export default {
-    props: ["triggerLogin"],
     name: "LoginButton",
     computed: {
     ...mapState(["isLogin"])
@@ -63,16 +62,13 @@ export default {
     },
     methods:{
       login(provider) {
-        console.log(this.isLogin)
-      this.$store.dispatch("login", provider);
+          this.$store.dispatch("login", provider);
     }
     },
     watch: {
-      triggerLogin: function () {
-        this.dialog = true
-      },
       isLogin() {
       if (this.isLogin === true) {
+        this.dialog = false
         this.$router.push("/lobby");
         swal.fire("Yayyy", "Login Success", "success");
       }
