@@ -41,6 +41,8 @@ export default new Vuex.Store({
         provider = new firebase.auth.GithubAuthProvider();
       }
 
+      
+
       firebase
         .auth()
         .signInWithPopup(provider)
@@ -105,7 +107,6 @@ export default new Vuex.Store({
           });
         });
         commit("setAllRooms", list);
-        console.log(state.roomList)
       });
     }
   }
