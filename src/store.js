@@ -1,27 +1,32 @@
 import Vue from "vue";
 import Vuex from "vuex";
-
-import {firebaseConfig } from 'firebase'
+import firebase from "firebase";
+import { db, firebaseConfig } from "@/api/config.js";
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
     isLogin: "",
-    userName: ""
+    userName: "",
+    roomList: []
   },
   mutations: {
-    setIsLogin(state, data){
-      state.isLogin = data
+    setIsLogin(state, data) {
+      state.isLogin = data;
     },
-    setUserName( state, data){
-      state.userName = data
+    setUserName(state, data) {
+      state.userName = data;
+    },
+    setAllRooms(state, data) {
+      state.roomList = data;
     }
   },
   actions: {
-    login({commit, state}, option) {
+    login({ commit, state }, option) {
       if (!firebase.apps.length) {
         firebase.initializeApp(firebaseConfig);
       }
+      console.log(option, "==========================");
       let provider;
       if (option == "google") {
         provider = new firebase.auth.GoogleAuthProvider();
@@ -56,6 +61,28 @@ export default new Vuex.Store({
         .catch(error => {
           console.log(error);
         });
+    },
+    checkLogin({ commit, state }) {
+      if (localStorage.token) {
+        let user = JSON.parse(localStorage.user);
+        commit("setIsLogin", true);
+        commit("setUserName", user.displayName);
+      } else {
+        commit("setIsLogin", false);
+        commit("setUserName", "")
+      }
+    },
+    getAllRooms({ commit, state }) {
+      db.collection("rooms").onSnapshot(querySnapshot => {
+        let list = [];
+        querySnapshot.forEach(doc => {
+          list.push({
+            id: doc.id,
+            ...doc.data()
+          });
+        });
+        commit("setAllRooms", list);
+      });
     }
   }
 });
