@@ -28,12 +28,6 @@ export default {
     this.checkLogin();
   },
   methods: {
-    callRegister: function () {
-      this.triggerRegister ++
-    },
-    callLogin: function () {
-      this.triggerLogin ++
-    },
     ...mapActions(["checkLogin"])
   }
 }

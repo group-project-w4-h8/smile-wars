@@ -8,7 +8,7 @@ export default new Vuex.Store({
   state: {
     isLogin: "",
     userName: "",
-    roomList :[]
+    roomList: []
   },
   mutations: {
     setIsLogin(state, data) {
@@ -17,8 +17,8 @@ export default new Vuex.Store({
     setUserName(state, data) {
       state.userName = data;
     },
-    setAllRooms(state, data){
-      state.roomList = data
+    setAllRooms(state, data) {
+      state.roomList = data;
     }
   },
   actions: {
@@ -62,25 +62,27 @@ export default new Vuex.Store({
           console.log(error);
         });
     },
-    checkLogin({commit, state}){
-        if(localStorage.token){
-          let user = JSON.parse(localStorage.user)
-          commit("setIsLogin", true)
-          commit("setUserName", user.displayName)
-        }
+    checkLogin({ commit, state }) {
+      if (localStorage.token) {
+        let user = JSON.parse(localStorage.user);
+        commit("setIsLogin", true);
+        commit("setUserName", user.displayName);
+      } else {
+        commit("setIsLogin", false);
+        commit("setUserName", "")
+      }
     },
-    getAllRooms({commit, state}){
-      db.collection("rooms")
-        .onSnapshot(querySnapshot => {
-          let list = [];
-          querySnapshot.forEach(doc => {
-            list.push({
-              id: doc.id,
-              ...doc.data()
-            });
+    getAllRooms({ commit, state }) {
+      db.collection("rooms").onSnapshot(querySnapshot => {
+        let list = [];
+        querySnapshot.forEach(doc => {
+          list.push({
+            id: doc.id,
+            ...doc.data()
           });
-          commit("fetchAllRooms", list)
         });
+        commit("setAllRooms", list);
+      });
     }
   }
 });
