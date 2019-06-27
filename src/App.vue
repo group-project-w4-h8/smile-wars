@@ -2,10 +2,11 @@
   <v-app>
     <NavBar @TriggerLogin="callLogin" @TriggerRegister="callRegister"></NavBar>
       <v-parallax
-    dark
-    src="/parallax.webp"
-    height=1000
-  >
+      v-show="isLogin"
+      dark
+      src="/parallax.webp"
+      height=1000
+      >
     <v-layout
       align-center
       column
@@ -17,10 +18,33 @@
       <RegisterButton :triggerRegister="triggerRegister"></RegisterButton>
       <LoginButton :triggerLogin="triggerLogin"></LoginButton>
 
-      <!-- <v-btn></v-btn> -->
+    
     </v-layout>
   </v-parallax>
     <v-content>
+      <v-container>
+        <v-layout row>
+        
+          <PlayerCard></PlayerCard>
+
+          <v-flex xs1 style="margin-top:16%;">
+            <v-img
+            src="/versus.jpg"
+            height="110"
+            >
+
+            </v-img>
+          </v-flex>
+
+          <PlayerCard></PlayerCard>
+
+         
+          
+
+        </v-layout>
+
+      </v-container>
+
     </v-content>
   </v-app>
 </template>
@@ -29,18 +53,22 @@
 import NavBar from "./components/NavBar"
 import RegisterButton from "./components/RegisterButton"
 import LoginButton from "./components/LoginButton"
+import PlayerCard from "./components/PlayerCard"
+
 
 export default {
   name: 'App',
   components: {
    NavBar,
    RegisterButton,
-   LoginButton
+   LoginButton,
+   PlayerCard
   },
   data () {
     return {
       triggerRegister: 0,
-      triggerLogin: 0
+      triggerLogin: 0,
+      isLogin: false,
     }
   },
   methods: {
