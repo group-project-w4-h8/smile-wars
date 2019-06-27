@@ -35,7 +35,6 @@
 <script>
 import NavBar from "./components/NavBar"
 import LoginButton from "./components/LoginButton"
-import PlayerCard from "./components/PlayerCard"
 
 import { mapActions } from "vuex";
 
@@ -43,8 +42,7 @@ export default {
   name: 'App',
   components: {
    NavBar,
-   LoginButton,
-   PlayerCard
+   LoginButton
   },
   data () {
     return {

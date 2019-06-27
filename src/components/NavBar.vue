@@ -10,17 +10,35 @@
             <v-list-tile-title>Create Room</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
-        <v-subheader>Rooms</v-subheader>
-        <v-list-tile v-for="room in $store.state.roomList" :key="room.id" :to="{path: '/room/1'}">
+
+        <v-list-tile :to="{path: '/lobby'}">
           <v-list-tile-action>
             <v-icon>home</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title>Lobby</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+
+
+        <v-subheader>Rooms</v-subheader>
+        <v-list-tile v-for="room in $store.state.roomList" :key="room.id" :to="{path: `/room/${room.id}`}">
+          <v-list-tile-action>
+            <v-img icon src="/room.png" height="23" contain></v-img>
           </v-list-tile-action>
           <v-list-tile-content>
             <v-list-tile-title >{{ room.id }} <v-icon v-show="room.password" small>vpn_key</v-icon></v-list-tile-title>
             <v-list-tile-sub-title><v-icon>supervisor_account</v-icon>{{ room.current_player }}/2</v-list-tile-sub-title>
           </v-list-tile-content>
+          <v-spacer></v-spacer>
+          <!-- <v-icon>add</v-icon> -->
+          <v-btn small flat style="padding-left: 23%;" @click.prevent="leaveRoom (room.id)" v-if="room.player_1 === $store.state.userName || room.player_2 === $store.state.userName">
+          <v-img icon src="/leave.png" height="20" contain></v-img>
+          </v-btn>
         </v-list-tile>
       </v-list>
+
+
     </v-navigation-drawer>
     <v-toolbar app fixed clipped-left>
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
@@ -32,6 +50,7 @@
 </template>
 
 <script>
+import { db } from "../api/config"
 import firebase from "firebase";
 import swal from 'sweetalert2';
 export default {
@@ -56,6 +75,26 @@ export default {
           console.log(error);
         });
     },
+    leaveRoom: function (id) {
+      var rooms = this.$store.state.roomList
+      var found = rooms.findIndex(room => room.id == id)
+      var selectedRoom = rooms[found]
+      selectedRoom.current_player --
+      
+      if(selectedRoom.player_1 === this.$store.state.userName){
+          db.collection("rooms").doc(selectedRoom.id).update({
+            player_1: "",
+            current_player: selectedRoom.current_player
+
+        })
+      }else{
+          db.collection("rooms").doc(selectedRoom.id).update({
+            player_2: "",
+            current_player: selectedRoom.current_player
+          })
+      }
+      this.$router.push("/lobby")
+    }
   },
   props: {
     source: String

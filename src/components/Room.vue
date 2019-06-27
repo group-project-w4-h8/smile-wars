@@ -1,7 +1,7 @@
 <template>
     <v-layout row>
         
-          <PlayerCard></PlayerCard>
+          <Player1Card :roomDetails="selectedRoom"></Player1Card>
 
           <v-flex xs1 style="margin-top:16%;">
             <v-img
@@ -12,19 +12,48 @@
             </v-img>
           </v-flex>
 
-          <PlayerCard></PlayerCard>
+          <Player2Card :roomDetails="selectedRoom"></Player2Card>
 
          
     </v-layout>
 </template>
 
 <script>
-import PlayerCard from "./PlayerCard"
+import Player1Card from "./Player1Card"
+import Player2Card from "./Player2Card"
 
 export default {
     name: "room",
     components: {
-        PlayerCard
+        Player1Card,
+        Player2Card
+    },
+    data () {
+        return {
+            selectedRoom: {}
+        }
+    },
+    methods: {
+    //    getRoom: function(cb) {
+    //        this.$store.dispatch("getAllRooms")
+    //         cb()
+    //    }
+    },
+    created(){
+        this.$store.dispatch("getAllRooms", (rooms) =>{
+            var id = this.$route.params.id
+            var selectedRoom = rooms.findIndex(room => room.id == id)
+            this.selectedRoom = rooms[selectedRoom]
+        })
+
+    },
+    watch: {
+        '$route.params.id': function () {
+            var rooms = this.$store.state.roomList
+            var id = this.$route.params.id
+            var selectedRoom = rooms.findIndex(room => room.id == id)
+            this.selectedRoom = rooms[selectedRoom]
+        }
     }
 
 }

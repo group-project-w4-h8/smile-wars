@@ -1,7 +1,7 @@
 <template>
   <div>
-    <NavBar></NavBar>
-    <div v-if="$store.state.isLogin == false">
+    <!-- <NavBar></NavBar> -->
+    <!-- <div v-if="$store.state.isLogin == false">
       <LoginPage></LoginPage>
     </div>
     <div v-if="$store.state.isLogin">
@@ -13,30 +13,30 @@
         </v-layout>
       </v-parallax>
       <v-content></v-content>
-    </div>
-    <Snaps/>
+    </div> -->
+    <!-- <Snaps/> -->
   </div>
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
-import LoginPage from "@/components/Login.vue";
-import { db } from "@/api/config.js";
-import NavBar from "@/components/NavBar.vue";
-export default {
-  name: "home",
-  components: {
-    LoginPage,
+// import { mapState, mapActions } from "vuex";
+// import LoginPage from "@/components/Login.vue";
+// import { db } from "@/api/config.js";
+// // import NavBar from "@/components/NavBar.vue";
+// export default {
+//   name: "home",
+//   components: {
+//     LoginPage,
 
-  },
-  created() {
-    this.getAllRooms();
-  },
-  computed: {
-    ...mapState(["isLogin"])
-  },
-  methods: {
-    ...mapActions(["getAllRooms"])
-  }
-};
+//   },
+//   created() {
+//     this.getAllRooms();
+//   },
+//   computed: {
+//     ...mapState(["isLogin"])
+//   },
+//   methods: {
+//     ...mapActions(["getAllRooms"])
+//   }
+// };
 </script>

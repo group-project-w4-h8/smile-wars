@@ -76,8 +76,7 @@ export default new Vuex.Store({
         commit("setUserName", "")
       }
     },
-    getAllRooms({ commit, state }) {
-      console.log("ASDASDASD")
+    getAllRooms({ commit, state }, cb) {
       db.collection("rooms").onSnapshot(querySnapshot => {
         let list = [];
         querySnapshot.forEach(doc => {
@@ -87,7 +86,7 @@ export default new Vuex.Store({
           });
         });
         commit("setAllRooms", list);
-        console.log(list)
+        cb(list)
       });
     }
   }

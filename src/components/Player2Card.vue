@@ -1,14 +1,34 @@
 <template>
 <v-flex xs5 class="px-3">
     <v-card>
+        <!-- <v-img
+         
+        >
+
+        </v-img> -->
+        <v-avatar size="390">
         <v-img
+         v-if="roomDetails.player_2"
          src="https://cdn.vuetifyjs.com/images/cards/halcyon.png"
-        height="400"
+        height="390"
         >
         </v-img>
 
+        <v-img
+        v-else
+         src="/avatar.png"
+        height="390"
+        >
+        </v-img>
+
+        </v-avatar>
+
+        <v-divider class="mt-2"></v-divider>
+
         <v-card-title primary-title class="layout justify-center">
-            <div class="headline">Player 1</div>
+            <div class="headline" v-if="roomDetails.player_2">{{ roomDetails.player_2 }}</div>
+            <div class="headline" v-else>Player 2</div>
+
         </v-card-title>
 
         <v-card-actions class="layout justify-end">
@@ -25,7 +45,10 @@
 
 <script>
 export default {
-
+    props: {
+        roomDetails: Object
+    }
+    
 }
 </script>
 
