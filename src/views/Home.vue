@@ -14,6 +14,7 @@
       </v-parallax>
       <v-content></v-content>
     </div>
+    <Snaps/>
   </div>
 </template>
 
