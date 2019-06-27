@@ -11,12 +11,13 @@
           </v-list-tile-content>
         </v-list-tile>
         <v-subheader>Rooms</v-subheader>
-        <v-list-tile :to="{path: '/room/1'}">
+        <v-list-tile v-for="room in $store.state.roomList" :key="room.id" :to="{path: '/room/1'}">
           <v-list-tile-action>
             <v-icon>home</v-icon>
           </v-list-tile-action>
           <v-list-tile-content>
-            <v-list-tile-title >Room 1</v-list-tile-title>
+            <v-list-tile-title >{{ room.id }} <v-icon v-show="room.password" small>vpn_key</v-icon></v-list-tile-title>
+            <v-list-tile-sub-title><v-icon>supervisor_account</v-icon>{{ room.current_player }}/2</v-list-tile-sub-title>
           </v-list-tile-content>
         </v-list-tile>
       </v-list>
@@ -34,6 +35,9 @@
 import firebase from "firebase";
 import swal from 'sweetalert2';
 export default {
+  created () {
+    this.$store.dispatch("getAllRooms")
+  },
   data: () => ({
     drawer: null
   }),
