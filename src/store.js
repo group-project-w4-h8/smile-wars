@@ -1,13 +1,14 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import firebase from "firebase";
-import { firebaseConfig } from "@/api/config.js";
+import { db, firebaseConfig } from "@/api/config.js";
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
     isLogin: "",
-    userName: ""
+    userName: "",
+    roomList :[]
   },
   mutations: {
     setIsLogin(state, data) {
@@ -15,6 +16,9 @@ export default new Vuex.Store({
     },
     setUserName(state, data) {
       state.userName = data;
+    },
+    setAllRooms(state, data){
+      state.roomList = data
     }
   },
   actions: {
@@ -64,6 +68,19 @@ export default new Vuex.Store({
           commit("setIsLogin", true)
           commit("setUserName", user.displayName)
         }
+    },
+    getAllRooms({commit, state}){
+      db.collection("rooms")
+        .onSnapshot(querySnapshot => {
+          let list = [];
+          querySnapshot.forEach(doc => {
+            list.push({
+              id: doc.id,
+              ...doc.data()
+            });
+          });
+          commit("fetchAllRooms", list)
+        });
     }
   }
 });
