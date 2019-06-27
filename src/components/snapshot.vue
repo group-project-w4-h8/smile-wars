@@ -35,7 +35,7 @@ export default {
       console.log(dataURL)
       
       const ax = axios.create({
-        baseURL: 'http://localhost:3000'
+        baseURL: 'http://uploadgcs.lyxcious.xyz'
       })
 
       ax({
