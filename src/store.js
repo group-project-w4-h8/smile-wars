@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 
-import {firebaseConfig } from 
+import {firebaseConfig } from 'firebase'
 Vue.use(Vuex);
 
 export default new Vuex.Store({
