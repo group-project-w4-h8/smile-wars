@@ -13,6 +13,7 @@
 <script>
 import Player1Card from "./Player1Card";
 import Player2Card from "./Player2Card";
+import { db } from "@/api/config.js";
 
 export default {
   name: "room",
@@ -25,26 +26,26 @@ export default {
       selectedRoom: {}
     };
   },
-  methods: {
-    //    getRoom: function(cb) {
-    //        this.$store.dispatch("getAllRooms")
-    //         cb()
-    //    }
-  },
   created() {
+    this.getSelectedRoom();
     this.$store.dispatch("getAllRooms", rooms => {
       var id = this.$route.params.id;
       var selectedRoom = rooms.findIndex(room => room.id == id);
       this.selectedRoom = rooms[selectedRoom];
     });
   },
-  watch: {
-    "$route.params.id": function() {
+  methods: {
+    getSelectedRoom() {
       var rooms = this.$store.state.roomList;
+      console.log(rooms)
       var id = this.$route.params.id;
       var selectedRoom = rooms.findIndex(room => room.id == id);
-      this.selectedRoom = rooms[selectedRoom];
+      this.selectedRoom = rooms[selectedRoom]
     }
+  },
+  beforeDestroy() {
+    this.$store.dispatch("updateARoom", this.selectedRoom)
+    
   }
 };
 </script>

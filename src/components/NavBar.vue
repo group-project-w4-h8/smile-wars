@@ -12,7 +12,7 @@
         </v-list-tile>
         <v-subheader>Rooms</v-subheader>
         <v-layout v-for="room in $store.state.roomList" :key="room.id">
-          <v-layout @click="goToRoom(room.id)" v-if="room.current_player < 2" >
+          <v-layout @click="goToRoom(room.id)" v-if="room.current_player < 2">
             <v-list-tile-action>
               <v-img icon src="/room.png" height="23" contain></v-img>
             </v-list-tile-action>
@@ -95,6 +95,7 @@
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
       <v-toolbar-title>SmileWars</v-toolbar-title>
       <v-spacer></v-spacer>
+      <v-btn v-if="$store.state.isLogin" :to="{path: `/lobby`}">to Lobby</v-btn>
       <v-btn v-if="$store.state.isLogin" @click="logout">Logout</v-btn>
     </v-toolbar>
   </div>
@@ -113,11 +114,22 @@ export default {
     dialogCreate: false
   }),
   methods: {
-    goToRoom(id) {
-      console.log(id);
-    },
     createNewRoom() {
-      console.log(this.roomname, this.password)
+      let input = {
+        current_player: 1,
+        password: this.password,
+        player_1: this.$store.state.userName
+      };
+      db.collection("rooms")
+        .doc(this.roomname)
+        .set(input)
+        .then(() => {
+          this.roomname = ""
+          this.password = ""
+          this.dialogCreate = false
+          router.push({ path: `/room/${this.name}` });
+        })
+        .catch(function(error) {});
     },
     logout() {
       localStorage.clear();
@@ -134,18 +146,43 @@ export default {
           console.log(error);
         });
     },
-    leaveRoom: function(id) {
+    goToRoom(id) {
+      var rooms = this.$store.state.roomList;
+      var found = rooms.findIndex(room => room.id == id);
+      var selectedRoom = rooms[found];
+      selectedRoom.current_player++;
+
+      if (selectedRoom.player_1 === this.$store.state.userName) {
+        db.collection("rooms")
+          .doc(selectedRoom.id)
+          .update({
+            player_1: this.$store.state.userName,
+            current_player: selectedRoom.current_player
+          });
+      } else {
+        db.collection("rooms")
+          .doc(selectedRoom.id)
+          .update({
+            player_2: this.$store.state.userName,
+            current_player: selectedRoom.current_player
+          });
+      }
+      this.$router.push(`/room/${id}`);
+    },
+    leaveRoom(id) {
       var rooms = this.$store.state.roomList;
       var found = rooms.findIndex(room => room.id == id);
       var selectedRoom = rooms[found];
       selectedRoom.current_player--;
-
       if (selectedRoom.player_1 === this.$store.state.userName) {
         db.collection("rooms")
           .doc(selectedRoom.id)
           .update({
             player_1: "",
             current_player: selectedRoom.current_player
+          })
+          .then(res => {
+            this.$router.push("/lobby");
           });
       } else {
         db.collection("rooms")
@@ -153,9 +190,11 @@ export default {
           .update({
             player_2: "",
             current_player: selectedRoom.current_player
+          })
+          .then(res => {
+            this.$router.push("/lobby");
           });
       }
-      this.$router.push("/lobby");
     }
   },
   props: {

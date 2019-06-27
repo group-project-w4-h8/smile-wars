@@ -3,7 +3,7 @@ import Vuex from "vuex";
 import firebase from "firebase";
 import { db, firebaseConfig } from "@/api/config.js";
 import audio_1 from "@/assets/Heal8-Bit.ogg";
-import swal from "sweetalert2"
+import swal from "sweetalert2";
 Vue.use(Vuex);
 // console.log(audio_1)
 export default new Vuex.Store({
@@ -41,8 +41,6 @@ export default new Vuex.Store({
         provider = new firebase.auth.GithubAuthProvider();
       }
 
-      
-
       firebase
         .auth()
         .signInWithPopup(provider)
@@ -57,30 +55,34 @@ export default new Vuex.Store({
           }
 
           let { email, displayName, photoURL } = user;
-          console.log(JSON.stringify(user))
+          console.log(JSON.stringify(user));
           localStorage.token = token;
           localStorage.user = JSON.stringify({ email, displayName, photoURL });
-          console.log(user.email)
+          console.log(user.email);
           localStorage.setItem("userName", user.displayName);
           commit("setIsLogin", true);
           commit("setUserName", displayName);
-          let theUser = displayName
-          if(displayName == null){
-            if(email !== null){
-              theUser = email
+          let theUser = displayName;
+          if (displayName == null) {
+            if (email !== null) {
+              theUser = email;
             } else {
-              theUser = "anonymous" + new Date().setSeconds().toString()
+              theUser = "anonymous" + new Date().setSeconds().toString();
             }
-          } 
-          if(email == null){
-            if(displayName !== null){
-              theUser = displayName
+          }
+          if (email == null) {
+            if (displayName !== null) {
+              theUser = displayName;
             } else {
-              theUser = "anonymous" + new Date().setSeconds().toString()
+              theUser = "anonymous" + new Date().setSeconds().toString();
             }
           }
           commit("setUserName", theUser);
-          swal.fire("Hello User!", `You are logged in as ${theUser} using ${provider}`, "success")
+          swal.fire(
+            "Hello User!",
+            `You are logged in as ${theUser} using ${option}`,
+            "success"
+          );
           state.login_logout_sound.play();
         })
         .catch(error => {
@@ -108,6 +110,50 @@ export default new Vuex.Store({
         });
         commit("setAllRooms", list);
       });
+    },
+    updateARoom({ commit, state }, selectedRoom) {
+      console.log("trigger")
+      selectedRoom.current_player--;
+      if (selectedRoom.current_player <= 0) {
+        if (
+          selectedRoom.player_1 == state.userName ||
+          selectedRoom.player_2 == state.userName
+        ) {
+          db.collection("rooms")
+            .doc(selectedRoom.id)
+            .delete()
+            .then(res => {
+              console.log(res);
+            })
+            .catch(err => {
+              console.log(err);
+            });
+        }
+      } else {
+        if (selectedRoom.player_1 === state.userName) {
+          db.collection("rooms")
+            .doc(selectedRoom.id)
+            .update({
+              player_1: "",
+              current_player: selectedRoom.current_player
+            })
+            .then(res => {
+              router.push("/lobby");
+            });
+        } else if (selectedRoom.player_2 === state.userName) {
+          db.collection("rooms")
+            .doc(selectedRoom.id)
+            .update({
+              player_2: "",
+              current_player: selectedRoom.current_player
+            })
+            .then(res => {
+              router.push("/lobby");
+            });
+        } else {
+          router.push("/lobby");
+        }
+      }
     }
   }
 });
