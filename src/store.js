@@ -8,7 +8,7 @@ Vue.use(Vuex);
 // console.log(audio_1)
 export default new Vuex.Store({
   state: {
-    isLogin: "",
+    isLogin: false,
     userName: "",
     roomList: [],
     login_logout_sound: new Audio(audio_1)
@@ -55,8 +55,10 @@ export default new Vuex.Store({
           }
 
           let { email, displayName, photoURL } = user;
+          console.log(JSON.stringify(user))
           localStorage.token = token;
           localStorage.user = JSON.stringify({ email, displayName, photoURL });
+          console.log(user.email)
           localStorage.setItem("userName", user.displayName);
           commit("setIsLogin", true);
           commit("setUserName", displayName);

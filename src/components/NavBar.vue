@@ -11,12 +11,12 @@
           </v-list-tile-content>
         </v-list-tile>
         <v-subheader>Rooms</v-subheader>
-        <v-list-tile>
+        <v-list-tile :to="{path: '/room/1'}">
           <v-list-tile-action>
             <v-icon>home</v-icon>
           </v-list-tile-action>
           <v-list-tile-content>
-            <v-list-tile-title>Room 1</v-list-tile-title>
+            <v-list-tile-title >Room 1</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
       </v-list>
