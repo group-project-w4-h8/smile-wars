@@ -1,51 +1,24 @@
 <template>
-  <div>
-    <!-- ROOT APP NOT LOGGED IN -->
-    <div class="container-fluid h-100">
-      <div class="col h-100 d-flex justify-content-center align-items-center">
-        <div class="row d-flex justfy-content-center text-center">
-          <div class="col-12 my-1">
-            <img
-              src="@/assets/google.png"
-              class="img rounded-circle img-thumbnail m-2"
-              width="120px"
-              height="120px"
-              @click="login('google')"
-            >
-            <img
-              src="@/assets/facebook.png"
-              class="img rounded-circle img-thumbnail m-2"
-              width="120px"
-              height="120px"
-              @click="login('facebook')"
-            >
-            <img
-              src="@/assets/github.jpeg"
-              class="img rounded-circle img-thumbnail m-2"
-              width="120px"
-              height="120px"
-              @click="login('github')"
-            >
-          </div>
-
-          <div class="col-12 m-1">
-            <H1>WELCOME SMILE WARS</H1>
-            <p>
-              To get started, click the image above to Log in using Google /
-              Facebook / GitHub
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+    <v-parallax v-show="!$store.state.isLogin" dark src="/parallax.webp" style="height:100%;">
+      <v-layout align-center column justify-center>
+        <h1 class="display-2 font-weight-thin mb-3">Vuetify.js</h1>
+        <h4 class="subheading">Build your application today!</h4>
+        <LoginButton></LoginButton>
+      </v-layout>
+    </v-parallax>
 </template>
 
 <script>
+import LoginButton from "@/components/LoginButton";
+import PlayerCard from "@/components/PlayerCard";
 import swal from "sweetalert2";
-import {mapState} from "vuex";
+import { mapState } from "vuex";
 export default {
   name: "Login",
+  components: {
+    LoginButton,
+    PlayerCard
+  },
   computed: {
     ...mapState(["isLogin"])
   },

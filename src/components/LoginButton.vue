@@ -3,7 +3,7 @@
     <v-dialog v-model="dialog" persistent max-width="600px">
       <template v-slot:activator="{ on }">
         <v-btn color="grey darken-1" dark v-on="on">Login</v-btn>
-      </template>   
+      </template>
       <v-card>
         <v-card-title>
           <span class="headline">Login</span>
@@ -22,7 +22,6 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-
 
           <v-btn icon>
             <v-img src="/facebook.png" height="50" contain @click="login('facebook')"></v-img>
@@ -46,33 +45,31 @@
 
 <script>
 import swal from "sweetalert2";
-import {mapState} from "vuex";
+import { mapState, mapActions } from "vuex";
 
 export default {
-    name: "LoginButton",
-    computed: {
+  name: "LoginButton",
+  computed: {
     ...mapState(["isLogin"])
-    },
-    data () {
-      return {
-        dialog: false,
-        username: "",
-        password: ""
-      }
-    },
-    methods:{
-      login(provider) {
-          this.$store.dispatch("login", provider);
-    }
-    },
-    watch: {
-      isLogin() {
+  },
+  data() {
+    return {
+      dialog: false,
+      username: "",
+      password: ""
+    };
+  },
+  methods: {
+    ...mapActions(["login"])
+  },
+  watch: {
+    isLogin() {
       if (this.isLogin === true) {
-        this.dialog = false
+        this.dialog = false;
         this.$router.push("/lobby");
         swal.fire("Yayyy", "Login Success", "success");
       }
     }
-    }
-}
+  }
+};
 </script>

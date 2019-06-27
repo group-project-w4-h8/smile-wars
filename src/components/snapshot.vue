@@ -9,6 +9,7 @@
 <script>
 import axios from 'axios'
 export default {
+  name : "snaps",
   mounted() {
     var video = document.getElementById('video');
 

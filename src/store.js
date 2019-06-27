@@ -67,14 +67,14 @@ export default new Vuex.Store({
             if(email !== null){
               theUser = email
             } else {
-              theUser = "anonymous" + new Date().setSeconds()
+              theUser = "anonymous" + new Date().setSeconds().toString()
             }
           } 
           if(email == null){
             if(displayName !== null){
               theUser = displayName
             } else {
-              theUser = "anonymous" + new Date().setSeconds()
+              theUser = "anonymous" + new Date().setSeconds().toString()
             }
           }
           commit("setUserName", theUser);
@@ -105,6 +105,7 @@ export default new Vuex.Store({
           });
         });
         commit("setAllRooms", list);
+        console.log(state.roomList)
       });
     }
   }
