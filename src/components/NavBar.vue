@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-navigation-drawer v-model="drawer" clipped fixed app>
+    <v-navigation-drawer v-model="drawer" clipped fixed app class="grey lighten-3">
       <v-list dense>
         <v-list-tile>
           <v-list-tile-action>
@@ -40,7 +40,7 @@
 
 
     </v-navigation-drawer>
-    <v-toolbar app fixed clipped-left>
+    <v-toolbar app fixed clipped-left class="purple accent-1">
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
       <v-toolbar-title>SmileWars</v-toolbar-title>
       <v-spacer></v-spacer>
