@@ -1,37 +1,43 @@
 <template>
   <v-app>
-    <router-view></router-view>
-    <Snaps/>
+    <v-content>
+      <navbar v-if="$store.state.isLogin"/>
+      <v-container>
+        <router-view></router-view>
+      </v-container>
+    </v-content>
   </v-app>
 </template>
 
 
 <script>
-import NavBar from "./components/NavBar"
-import RegisterButton from "./components/RegisterButton"
-import LoginButton from "./components/LoginButton"
 import { mapActions } from "vuex";
-import Snaps from './components/snapshot'
+import bgaudio from "@/assets/backgroundMusic.ogg";
+import navbar from "@/components/NavBar.vue";
 
 export default {
-  name: 'App',
-  components: {
-   NavBar,
-   RegisterButton,
-   LoginButton,
-   Snaps
-  },
-  data () {
-    return {
-      triggerRegister: 0,
-      triggerLogin: 0
-    }
+  name: "App",
+  components: { navbar },
+  data() {
+    return {};
   },
   created() {
+    var play = new Audio(bgaudio);
+    play.play();
+    play.addEventListener(
+      "ended",
+      function() {
+        this.currentTime = 0;
+        this.play();
+      },
+      false
+    );
+
     this.checkLogin();
+    this.getAllRooms();
   },
   methods: {
-    ...mapActions(["checkLogin"])
+    ...mapActions(["checkLogin", "getAllRooms"])
   }
-}
+};
 </script>

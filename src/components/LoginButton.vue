@@ -3,7 +3,7 @@
     <v-dialog v-model="dialog" persistent max-width="600px">
       <template v-slot:activator="{ on }">
         <v-btn color="grey darken-1" dark v-on="on">Login</v-btn>
-      </template>   
+      </template>
       <v-card>
         <v-card-title>
           <span class="headline">Login</span>
@@ -22,6 +22,19 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
+
+          <v-btn icon>
+            <v-img src="/facebook.png" height="50" contain @click="login('facebook')"></v-img>
+          </v-btn>
+
+          <v-btn icon>
+            <v-img src="/github.png" height="50" contain @click="login('github')"></v-img>
+          </v-btn>
+
+          <v-btn icon>
+            <v-img src="/google.png" height="50" contain @click="login('google')"></v-img>
+          </v-btn>
+
           <v-btn color="grey darken-4" flat @click="dialog = false">Cancel</v-btn>
           <v-btn color="grey darken-4" flat @click="login">Login</v-btn>
         </v-card-actions>
@@ -31,25 +44,32 @@
 </template>
 
 <script>
+import swal from "sweetalert2";
+import { mapState, mapActions } from "vuex";
+
 export default {
-    props: ["triggerLogin"],
-    name: "LoginButton",
-    data () {
-      return {
-        dialog: false,
-        username: "",
-        password: ""
-      }
-    },
-    methods:{
-      login: function () {
-        
-      }
-    },
-    watch: {
-      triggerLogin: function () {
-        this.dialog = true
+  name: "LoginButton",
+  computed: {
+    ...mapState(["isLogin"])
+  },
+  data() {
+    return {
+      dialog: false,
+      username: "",
+      password: ""
+    };
+  },
+  methods: {
+    ...mapActions(["login"])
+  },
+  watch: {
+    isLogin() {
+      if (this.isLogin === true) {
+        this.dialog = false;
+        this.$router.push("/lobby");
+        swal.fire("Yayyy", "Login Success", "success");
       }
     }
-}
+  }
+};
 </script>
