@@ -1,12 +1,22 @@
 <template>
-  <v-layout row>
-    <Player1Card :roomDetails="selectedRoom"></Player1Card>
+  <v-layout column>
+    <v-layout row>
+    <Player1Card :selectedRoom="selectedRoom"></Player1Card>
 
     <v-flex xs1 style="margin-top:16%;">
-      <v-img src="/versus.jpg" height="110"></v-img>
+      <v-img src="/versus.jpg" height="110" v-show="showVS"></v-img>
     </v-flex>
 
-    <Player2Card :roomDetails="selectedRoom"></Player2Card>
+    <Player2Card :selectedRoom="selectedRoom"></Player2Card>
+
+    </v-layout >
+    <v-layout row>
+      <v-flex xs1 offset-xs5>
+
+      <v-btn class="red" @click="resetRoom" v-show="selectedRoom.player_1_picture.image != '' && selectedRoom.player_2_picture.image != ''">Fight Again!</v-btn>
+      </v-flex>
+    </v-layout>
+
   </v-layout>
 </template>
 
@@ -14,6 +24,7 @@
 import Player1Card from "./Player1Card";
 import Player2Card from "./Player2Card";
 import { db } from "@/api/config.js";
+import { setTimeout } from 'timers';
 
 export default {
   name: "room",
@@ -23,29 +34,48 @@ export default {
   },
   data() {
     return {
-      selectedRoom: {}
+      selectedRoom: {},
+      showVS : false
     };
   },
   created() {
-    this.getSelectedRoom();
-    this.$store.dispatch("getAllRooms", rooms => {
-      var id = this.$route.params.id;
-      var selectedRoom = rooms.findIndex(room => room.id == id);
-      this.selectedRoom = rooms[selectedRoom];
-    });
+
+  },
+  computed : {
+    rooms(){
+      return this.$store.state.roomList
+    }
+  },
+  watch : {
+    rooms(){
+      this.getSelectedRoom();  
+    }
+  },
+  mounted(){
+    setTimeout(()=>{this.getSelectedRoom()
+    this.showVS = true},5000)
   },
   methods: {
     getSelectedRoom() {
       var rooms = this.$store.state.roomList;
-      console.log(rooms)
       var id = this.$route.params.id;
       var selectedRoom = rooms.findIndex(room => room.id == id);
-      this.selectedRoom = rooms[selectedRoom]
+      this.selectedRoom = rooms[selectedRoom];
+    },
+    resetRoom () {
+      var id = this.$route.params.id
+      db.collection("rooms").doc(id).update({
+        player_1_picture: {
+          image: '',
+          score: 0
+        },
+        player_2_picture: {
+          image: '',
+          score: 0
+        }
+      })
     }
-  },
-  // beforeDestroy() {
-  //   this.$store.dispatch("updateARoom", this.selectedRoom)
-  // }
+  }
 };
 </script>
 

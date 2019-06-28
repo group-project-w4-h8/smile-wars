@@ -80,7 +80,10 @@ export default {
       let input = {
         current_player: 1,
         password: this.password,
-        player_1: this.$store.state.userName
+        player_1: this.$store.state.userName,
+        player_1_picture : { image : "", score : 0},
+        player_2: "",
+        player_2_picture : { image : "", score : 0}
       };
       db.collection("rooms")
         .doc(this.roomname)
@@ -157,6 +160,7 @@ export default {
       //       this.$router.push("/lobby");
       //     });
       // }
+      this.$store.commit("setUserJoined", false)
       this.$store.dispatch("updateARoom", selectedRoom)
       
 

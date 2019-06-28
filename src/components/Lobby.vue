@@ -19,7 +19,7 @@
                   {{ room.current_player }}/2
                 </v-list-tile-sub-title>
               </v-list-tile-content>
-              <v-btn small class="green" @click.prevent="joinRoom(room.id)" v-if="!userJoined">Join</v-btn>
+              <v-btn small class="green" @click.prevent="joinRoom(room.id)" v-if="!$store.state.userJoined">Join</v-btn>
               <v-btn
                 small
                 class="red"
@@ -39,21 +39,13 @@
 import { db } from "../api/config";
 
 export default {
-  created() {
-    this.$store.dispatch("getAllRooms", (rooms) =>{
-      var user = this.$store.state.userName;
-      var found1 = rooms.findIndex(room => room.player_1 == user);
-      var found2 = rooms.findIndex(room => room.player_2 == user);
-      if (found1 >= 0 || found2 >= 0) {
-        this.userJoined = true;
-      }
-    });
-  },
+  created() {},
   data() {
     return {
       alert: false,
-      userJoined: false
     };
+  },
+  mounted() {
   },
   methods: {
     joinRoom: function(id) {
@@ -84,11 +76,9 @@ export default {
               this.$router.push(`/room/${id}`);
             });
         }
-              this.userJoined = true
-
+        this.$store.commit("setUserJoined", true);
       } else {
         this.alert = true;
-
       }
     },
     leaveRoom: function(id) {
@@ -96,23 +86,7 @@ export default {
       var found = rooms.findIndex(room => room.id == id);
       var selectedRoom = rooms[found];
       selectedRoom.current_player--;
-
-      // if (selectedRoom.player_1 === this.$store.state.userName) {
-      //   db.collection("rooms")
-      //     .doc(selectedRoom.id)
-      //     .update({
-      //       player_1: "",
-      //       current_player: selectedRoom.current_player
-      //     });
-      // } else {
-      //   db.collection("rooms")
-      //     .doc(selectedRoom.id)
-      //     .update({
-      //       player_2: "",
-      //       current_player: selectedRoom.current_player
-      //     });
-      // }
-      this.userJoined = false;
+      this.$store.commit("setUserJoined", false);
       this.$store.dispatch("updateARoom", selectedRoom);
     }
   }

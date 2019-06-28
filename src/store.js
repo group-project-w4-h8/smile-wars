@@ -12,7 +12,8 @@ export default new Vuex.Store({
     isLogin: false,
     userName: "",
     roomList: [],
-    login_logout_sound: new Audio(audio_1)
+    login_logout_sound: new Audio(audio_1),
+    userJoined : false
   },
   mutations: {
     setIsLogin(state, data) {
@@ -23,6 +24,9 @@ export default new Vuex.Store({
     },
     setAllRooms(state, data) {
       state.roomList = data;
+    },
+    setUserJoined(state, data){
+      state.userJoined = data
     }
   },
   actions: {
@@ -56,10 +60,8 @@ export default new Vuex.Store({
           }
 
           let { email, displayName, photoURL } = user;
-          console.log(JSON.stringify(user));
           localStorage.token = token;
           localStorage.user = JSON.stringify({ email, displayName, photoURL });
-          console.log(user.email);
           localStorage.setItem("userName", user.displayName);
           commit("setIsLogin", true);
           commit("setUserName", displayName);
@@ -100,18 +102,20 @@ export default new Vuex.Store({
         commit("setUserName", "");
       }
     },
-    getAllRooms({ commit, state }, cb) {
-      db.collection("rooms").onSnapshot(querySnapshot => {
-        let list = [];
-        querySnapshot.forEach(doc => {
-          list.push({
-            id: doc.id,
-            ...doc.data()
+    getAllRooms({ commit, state }) {
+      return new Promise((resolve,reject)=>{
+        db.collection("rooms").onSnapshot(querySnapshot => {
+          let list = [];
+          querySnapshot.forEach(doc => {
+            list.push({
+              id: doc.id,
+              ...doc.data()
+            });
           });
+          commit("setAllRooms", list);
+          resolve(list)
         });
-        commit("setAllRooms", list);
-        cb(list)
-      });
+      })
     },
     updateARoom({ commit, state }, selectedRoom) {
       if (selectedRoom.current_player === 0) {
