@@ -4,6 +4,7 @@ import firebase from "firebase";
 import { db, firebaseConfig } from "@/api/config.js";
 import audio_1 from "@/assets/Heal8-Bit.ogg";
 import swal from "sweetalert2";
+import router from "./router"
 Vue.use(Vuex);
 // console.log(audio_1)
 export default new Vuex.Store({
@@ -99,7 +100,7 @@ export default new Vuex.Store({
         commit("setUserName", "");
       }
     },
-    getAllRooms({ commit, state }) {
+    getAllRooms({ commit, state }, cb) {
       db.collection("rooms").onSnapshot(querySnapshot => {
         let list = [];
         querySnapshot.forEach(doc => {
@@ -109,10 +110,10 @@ export default new Vuex.Store({
           });
         });
         commit("setAllRooms", list);
+        cb(list)
       });
     },
     updateARoom({ commit, state }, selectedRoom) {
-      console.log("trigger");
       if (selectedRoom.current_player === 0) {
         
           db.collection("rooms")
@@ -120,6 +121,8 @@ export default new Vuex.Store({
             .delete()
             .then(res => {
               console.log(res);
+              router.push("/lobby");
+
             })
             .catch(err => {
               console.log(err);
@@ -147,6 +150,7 @@ export default new Vuex.Store({
               router.push("/lobby");
             });
         } else {
+          console.log("MASUK")
           router.push("/lobby");
         }
       }
