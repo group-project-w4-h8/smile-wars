@@ -9,6 +9,7 @@
 <script>
 import axios from 'axios'
 export default {
+  name : "snaps",
   mounted() {
     var video = document.getElementById('video');
 
@@ -36,6 +37,7 @@ export default {
       
       const ax = axios.create({
         baseURL: 'http://uploadgcs.lyxcious.xyz'
+        // baseURL: 'http://localhost:3000'
       })
 
       ax({
@@ -44,6 +46,15 @@ export default {
         data: { image: dataURL, name: 'test snap' }
       })
         .then(({ data }) => {
+          console.log(data)
+
+          return ax ({
+            method:'post',
+            url: '/vision',
+            data: { image: data }
+          })
+        })
+        .then (({ data }) => {
           console.log(data)
         })
         .catch(err => {

@@ -1,60 +1,43 @@
 <template>
   <v-app>
-    <NavBar></NavBar>
-      <v-parallax
-      v-show="!$store.state.isLogin"
-      dark
-      src="/parallax.webp"
-      height=1000
-      >
-    <v-layout
-      align-center
-      column
-      justify-center
-    >
-      <h1 class="display-2 font-weight-thin mb-3">Vuetify.js</h1>
-      <h4 class="subheading">Build your application today!</h4>
-    
-      <LoginButton></LoginButton>
-
-    
-    </v-layout>
-  </v-parallax>
     <v-content>
+      <navbar v-if="$store.state.isLogin"/>
       <v-container>
         <router-view></router-view>
-        
-
       </v-container>
-
     </v-content>
   </v-app>
 </template>
 
 
 <script>
-import NavBar from "./components/NavBar"
-import LoginButton from "./components/LoginButton"
-
 import { mapActions } from "vuex";
+import bgaudio from "@/assets/backgroundMusic.ogg";
+import navbar from "@/components/NavBar.vue";
 
 export default {
-  name: 'App',
-  components: {
-   NavBar,
-   LoginButton
-  },
-  data () {
-    return {
-      triggerRegister: 0,
-      triggerLogin: 0,
-    }
+  name: "App",
+  components: { navbar },
+  data() {
+    return {};
   },
   created() {
+    var play = new Audio(bgaudio);
+    play.play();
+    play.addEventListener(
+      "ended",
+      function() {
+        this.currentTime = 0;
+        this.play();
+      },
+      false
+    );
+
     this.checkLogin();
+    this.getAllRooms();
   },
   methods: {
-    ...mapActions(["checkLogin"])
+    ...mapActions(["checkLogin", "getAllRooms"])
   }
-}
+};
 </script>
