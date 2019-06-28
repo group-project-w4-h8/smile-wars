@@ -1,6 +1,5 @@
 <template>
-  <div>
-    
+  <div>   
     <div v-if="$store.state.isLogin == false">
       <LoginPage></LoginPage>
     </div>

@@ -2,8 +2,8 @@
   <div>
     <!-- <v-img >
     </v-img>-->
-    <video :id="'video'+selectedRoom.player_1" autoplay height="480" width="640" v-show="snapped==false && GCSurl =='' && selectedRoom.player_1 == $store.state.userName"></video>
-    <!-- <video :id="'video'+selectedRoom.player_2" autoplay height="480" width="640" v-show="snapped==false && GCSurl =='' && selectedRoom.player_2 == $store.state.userName"></video> -->
+    <!-- <video :id="'video'+selectedRoom.player_1" autoplay height="480" width="640" v-show="snapped==false && GCSurl =='' && selectedRoom.player_1 == $store.state.userName"></video> -->
+    <video :id="'video'+selectedRoom.player_2" autoplay height="480" width="640" v-show="snapped==false && GCSurl =='' && selectedRoom.player_2 == $store.state.userName"></video>
     <canvas :id="'canvas'+$store.state.userName" height="480" width="640" v-show="GCSurl == '' && snapped == true"></canvas>
     <v-img v-show="GCSurl != ''" :src="GCSurl" style="height: 480px; width: 640px;"></v-img>
     <v-btn id="snap" @click="snapShot">Snap Photo</v-btn>
@@ -31,21 +31,7 @@ export default {
   created() {},
   mounted() {
     
-      let video1 = document.getElementById(`video${this.selectedRoom.player_1}`);
-      // Get access to the camera!
-      if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-        // Not adding `{ audio: true }` since we only want video now
-        navigator.mediaDevices
-          .getUserMedia({
-            video: true
-          })
-          .then(function(stream) {
-            //video.src = window.URL.createObjectURL(stream);
-            video1.srcObject = stream;
-            video1.play();
-          });
-      }
-      // let video2 = document.getElementById(`video${this.selectedRoom.player_2}`);
+      // let video3 = document.getElementById(`video${this.selectedRoom.player_1}`);
       // // Get access to the camera!
       // if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
       //   // Not adding `{ audio: true }` since we only want video now
@@ -55,10 +41,24 @@ export default {
       //     })
       //     .then(function(stream) {
       //       //video.src = window.URL.createObjectURL(stream);
-      //       video2.srcObject = stream;
-      //       video2.play();
+      //       video3.srcObject = stream;
+      //       video3.play();
       //     });
       // }
+      let video4 = document.getElementById(`video${this.selectedRoom.player_2}`);
+      // Get access to the camera!
+      if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+        // Not adding `{ audio: true }` since we only want video now
+        navigator.mediaDevices
+          .getUserMedia({
+            video: true
+          })
+          .then(function(stream) {
+            //video.src = window.URL.createObjectURL(stream);
+            video4.srcObject = stream;
+            video4.play();
+          });
+      }
 
   },
   methods: {
