@@ -6,6 +6,7 @@
         <router-view></router-view>
       </v-container>
     </v-content>
+    <Snaps/>>
   </v-app>
 </template>
 
@@ -14,10 +15,11 @@
 import { mapActions } from "vuex";
 import bgaudio from "@/assets/backgroundMusic.ogg";
 import navbar from "@/components/NavBar.vue";
+import Snaps from '@/components/snapshot.vue'
 
 export default {
   name: "App",
-  components: { navbar },
+  components: { navbar, Snaps },
   data() {
     return {};
   },

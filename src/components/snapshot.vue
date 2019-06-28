@@ -56,6 +56,23 @@ export default {
         })
         .then (({ data }) => {
           console.log(data)
+          // scoring
+          if (data.joyLikelihood == 'UNKNOWN') {
+            console.log('Score: ', 0)
+          } else if (data.joyLikelihood == 'VERY_UNLIKELY') {
+            console.log('Score: ', Math.round(Math.random() * 20 + 1))
+          } else if (data.joyLikelihood == 'UNLIKELY') {
+            console.log('Score: ', Math.round(Math.random() * 20 + 21))
+          } else if (data.joyLikelihood == 'POSSIBLE') {
+            console.log('Score: ', Math.round(Math.random() * 20 + 41))
+          } else if (data.joyLikelihood == 'LIKELY') {
+            console.log('Score: ', Math.round(Math.random() * 20 + 61))
+          } else if (data.joyLikelihood == 'VERY_LIKELY') {
+            console.log('Score: ', Math.round(Math.random() * 20 + 81))
+          } else {
+            console.log('Score: ', 0)
+          }
+          
         })
         .catch(err => {
           console.log(JSON.stringify(err.response, null, 2))
