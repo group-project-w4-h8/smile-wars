@@ -40,15 +40,16 @@ import { db } from "../api/config";
 
 export default {
   created() {
-    this.$store.dispatch("getAllRooms", rooms => {
-      var user = this.$store.state.userName;
-      var found1 = rooms.findIndex(room => room.player_1 == user);
-      var found2 = rooms.findIndex(room => room.player_2 == user);
+    this.$store.dispatch("getAllRooms");
 
-      if (found1 >= 0 || found2 >= 0) {
-        this.userJoined = true;
-      }
-    });
+    var user = this.$store.state.userName;
+    let rooms = this.$store.state.roomList
+    var found1 = rooms.findIndex(room => room.player_1 == user);
+    var found2 = rooms.findIndex(room => room.player_2 == user);
+
+    if (found1 >= 0 || found2 >= 0) {
+      this.userJoined = true;
+    }
   },
   data() {
     return {
@@ -111,6 +112,7 @@ export default {
           });
       }
       this.userJoined = false;
+      this.$store.dispatch("updateARoom", selectedRoom);
     }
   }
 };

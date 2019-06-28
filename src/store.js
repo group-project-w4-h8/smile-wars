@@ -112,13 +112,9 @@ export default new Vuex.Store({
       });
     },
     updateARoom({ commit, state }, selectedRoom) {
-      console.log("trigger")
-      selectedRoom.current_player--;
-      if (selectedRoom.current_player <= 0) {
-        if (
-          selectedRoom.player_1 == state.userName ||
-          selectedRoom.player_2 == state.userName
-        ) {
+      console.log("trigger");
+      if (selectedRoom.current_player === 0) {
+        
           db.collection("rooms")
             .doc(selectedRoom.id)
             .delete()
@@ -129,7 +125,7 @@ export default new Vuex.Store({
               console.log(err);
             });
         }
-      } else {
+       else {
         if (selectedRoom.player_1 === state.userName) {
           db.collection("rooms")
             .doc(selectedRoom.id)

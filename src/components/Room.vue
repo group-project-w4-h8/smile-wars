@@ -43,10 +43,9 @@ export default {
       this.selectedRoom = rooms[selectedRoom]
     }
   },
-  beforeDestroy() {
-    this.$store.dispatch("updateARoom", this.selectedRoom)
-    
-  }
+  // beforeDestroy() {
+  //   this.$store.dispatch("updateARoom", this.selectedRoom)
+  // }
 };
 </script>
 
