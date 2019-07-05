@@ -8,18 +8,7 @@
         <v-card-title>
           <span class="headline">Login</span>
         </v-card-title>
-        <v-card-text>
-          <v-container grid-list-md>
-            <v-layout wrap>
-              <v-flex xs12>
-                <v-text-field label="Username*" v-model="username" required></v-text-field>
-              </v-flex>
-              <v-flex xs12>
-                <v-text-field label="Password*" type="password" v-model="password" required></v-text-field>
-              </v-flex>
-            </v-layout>
-          </v-container>
-        </v-card-text>
+
         <v-card-actions>
           <v-spacer></v-spacer>
 
@@ -54,9 +43,7 @@ export default {
   },
   data() {
     return {
-      dialog: false,
-      username: "",
-      password: ""
+      dialog: false
     };
   },
   methods: {

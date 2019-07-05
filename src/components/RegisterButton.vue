@@ -36,25 +36,23 @@
 
 <script>
 export default {
-    props: ["triggerRegister"],
-    name: "RegisterButton",
-    data (){
-        return{
-            dialog: false,
-            username: "",
-            password: "",
-            email: ""
-        }
-    },
-    methods:{
-      register: function () {
-
-      }
-    },
-    watch: {
-      triggerRegister: function(){
-        this.dialog = true
-      }
+  props: ["triggerRegister"],
+  name: "RegisterButton",
+  data() {
+    return {
+      dialog: false,
+      username: "",
+      password: "",
+      email: ""
+    };
+  },
+  methods: {
+    register: function() {}
+  },
+  watch: {
+    triggerRegister: function() {
+      this.dialog = true;
     }
-}
+  }
+};
 </script>

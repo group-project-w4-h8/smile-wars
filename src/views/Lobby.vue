@@ -19,7 +19,12 @@
                   {{ room.current_player }}/2
                 </v-list-tile-sub-title>
               </v-list-tile-content>
-              <v-btn small class="green" @click.prevent="joinRoom(room.id)" v-if="!$store.state.userJoined">Join</v-btn>
+              <v-btn
+                small
+                class="green"
+                @click.prevent="joinRoom(room.id)"
+                v-if="!$store.state.userJoined"
+              >Join</v-btn>
               <v-btn
                 small
                 class="red"
@@ -27,7 +32,7 @@
                 v-if="room.player_1 === $store.state.userName || room.player_2 === $store.state.userName"
               >Leave</v-btn>
             </v-list-tile>
-            <v-divider :key="room.player_1"/>
+            <v-divider :key="room.player_1" />
           </template>
         </v-list>
       </v-card>
@@ -36,17 +41,16 @@
 </template>
 
 <script>
-import { db } from "../api/config";
+import { db } from "@/api/config";
 
 export default {
   created() {},
   data() {
     return {
-      alert: false,
+      alert: false
     };
   },
-  mounted() {
-  },
+  mounted() {},
   methods: {
     joinRoom: function(id) {
       var rooms = this.$store.state.roomList;

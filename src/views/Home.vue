@@ -1,5 +1,5 @@
 <template>
-  <div>   
+  <div>
     <div v-if="$store.state.isLogin == false">
       <LoginPage></LoginPage>
     </div>
@@ -14,8 +14,8 @@ import { mapState } from "vuex";
 import LoginPage from "@/components/Login.vue";
 import { db } from "@/api/config.js";
 import navbar from "@/components/NavBar.vue";
-import Snaps from "@/components/snapshot.vue"
-import Lobby from "@/components/Lobby.vue";
+import Snaps from "@/components/snapshot.vue";
+import Lobby from "@/views/Lobby.vue";
 export default {
   name: "Home",
   components: {

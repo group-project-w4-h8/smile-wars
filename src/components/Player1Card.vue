@@ -1,26 +1,32 @@
 <template>
   <v-flex xs5 class="px-3">
-    <v-card >
-      <v-img v-show="$store.state.userName === selectedRoom.player_1 && !selectedRoom.player_1_picture.image">
-        <Snaps :selectedRoom="selectedRoom" :player='selectedRoom.player_1'/>
+    <v-card>
+      <v-img
+        v-show="$store.state.userName === selectedRoom.player_1 && !selectedRoom.player_1_picture.image"
+      >
+        <Snaps :selectedRoom="selectedRoom" :player="selectedRoom.player_1" />
       </v-img>
 
-      <v-img v-show="$store.state.userName !== selectedRoom.player_1 && !selectedRoom.player_1_picture.image" src="/avatar.png"></v-img>
-        <v-img v-show="selectedRoom.player_1_picture.image" :src="selectedRoom.player_1_picture.image"></v-img>
-      <v-divider class=""></v-divider>
+      <v-img
+        v-show="$store.state.userName !== selectedRoom.player_1 && !selectedRoom.player_1_picture.image"
+        src="/avatar.png"
+      ></v-img>
+      <v-img
+        v-show="selectedRoom.player_1_picture.image"
+        :src="selectedRoom.player_1_picture.image"
+      ></v-img>
+      <v-divider class></v-divider>
 
-        <v-card-title primary-title class="layout justify-center">
-            <div class="headline" v-if="selectedRoom.player_1">{{ selectedRoom.player_1 }}</div>
-            <div class="headline" v-else>Player</div>
-        </v-card-title>
-        <v-divider v-if="selectedRoom.player_1_picture.image !== ''"></v-divider>
-        <v-card-title class="layout justify-center" v-if="selectedRoom.player_1_picture.image !== ''">
-          <div class="headline">Score: {{selectedRoom.player_1_picture.score}}</div>
+      <v-card-title primary-title class="layout justify-center">
+        <div class="headline" v-if="selectedRoom.player_1">{{ selectedRoom.player_1 }}</div>
+        <div class="headline" v-else>Player</div>
+      </v-card-title>
+      <v-divider v-if="selectedRoom.player_1_picture.image !== ''"></v-divider>
+      <v-card-title class="layout justify-center" v-if="selectedRoom.player_1_picture.image !== ''">
+        <div class="headline">Score: {{selectedRoom.player_1_picture.score}}</div>
+      </v-card-title>
 
-        </v-card-title>
-
-        <v-card-actions class="layout justify-end">
-      </v-card-actions>
+      <v-card-actions class="layout justify-end"></v-card-actions>
     </v-card>
   </v-flex>
 </template>
@@ -31,13 +37,11 @@ export default {
   components: {
     Snaps
   },
-  props : ["selectedRoom"],
-  data () {
-    return {
-    }
+  props: ["selectedRoom"],
+  data() {
+    return {};
   },
-    created(){
-  },
+  created() {},
   methods: {
     getSelectedRoom() {
       var rooms = this.$store.state.roomList;

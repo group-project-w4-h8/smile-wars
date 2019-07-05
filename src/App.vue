@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <v-content>
-      <navbar v-if="$store.state.isLogin"/>
+      <navbar v-if="$store.state.isLogin" />
       <v-container>
         <router-view></router-view>
       </v-container>
@@ -14,11 +14,10 @@
 import { mapActions } from "vuex";
 import bgaudio from "@/assets/backgroundMusic.ogg";
 import navbar from "@/components/NavBar.vue";
-import Snaps from "@/components/snapshot.vue";
 
 export default {
   name: "App",
-  components: { navbar, Snaps },
+  components: { navbar },
   data() {
     return {};
   },
@@ -42,8 +41,8 @@ export default {
         var found1 = rooms.findIndex(room => room.player_1 == user);
         var found2 = rooms.findIndex(room => room.player_2 == user);
         if (found1 >= 0 || found2 >= 0) {
-          this.$store.commit("setUserJoined", true)  
-          }
+          this.$store.commit("setUserJoined", true);
+        }
       })
       .catch(err => {
         console.log(err);

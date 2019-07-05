@@ -11,21 +11,37 @@
           </v-list-tile-content>
         </v-list-tile>
         <v-subheader>Rooms</v-subheader>
-       <v-list-tile v-for="room in $store.state.roomList" :key="room.id" :to="{path: `/room/${room.id}`}">
+        <v-list-tile
+          v-for="room in $store.state.roomList"
+          :key="room.id"
+          :to="{path: `/room/${room.id}`}"
+        >
           <v-list-tile-action>
             <v-img icon src="/room.png" height="23" contain></v-img>
           </v-list-tile-action>
           <v-list-tile-content>
-            <v-list-tile-title >{{ room.id }} <v-icon v-show="room.password" small>vpn_key</v-icon></v-list-tile-title>
-            <v-list-tile-sub-title><v-icon>supervisor_account</v-icon>{{ room.current_player }}/2</v-list-tile-sub-title>
+            <v-list-tile-title>
+              {{ room.id }}
+              <v-icon v-show="room.password" small>vpn_key</v-icon>
+            </v-list-tile-title>
+            <v-list-tile-sub-title>
+              <v-icon>supervisor_account</v-icon>
+              {{ room.current_player }}/2
+            </v-list-tile-sub-title>
           </v-list-tile-content>
           <v-spacer></v-spacer>
           <!-- <v-icon>add</v-icon> -->
-          <v-btn small flat style="padding-left: 23%;" @click.prevent="leaveRoom (room.id)" v-if="room.player_1 === $store.state.userName || room.player_2 === $store.state.userName">
-          <v-img icon src="/leave.png" height="20" contain></v-img>
+          <v-btn
+            small
+            flat
+            style="padding-left: 23%;"
+            @click.prevent="leaveRoom (room.id)"
+            v-if="room.player_1 === $store.state.userName || room.player_2 === $store.state.userName"
+          >
+            <v-img icon src="/leave.png" height="20" contain></v-img>
           </v-btn>
         </v-list-tile>
-          </v-list>
+      </v-list>
     </v-navigation-drawer>
 
     <v-dialog v-model="dialogCreate" persistent max-width="600px">
@@ -81,18 +97,18 @@ export default {
         current_player: 1,
         password: this.password,
         player_1: this.$store.state.userName,
-        player_1_picture : { image : "", score : 0},
+        player_1_picture: { image: "", score: 0 },
         player_2: "",
-        player_2_picture : { image : "", score : 0}
+        player_2_picture: { image: "", score: 0 }
       };
       db.collection("rooms")
         .doc(this.roomname)
         .set(input)
         .then(() => {
-          this.dialogCreate = false
+          this.dialogCreate = false;
           this.$router.push(`/room/${this.roomname}`);
-          this.roomname = ""
-          this.password = ""
+          this.roomname = "";
+          this.password = "";
         })
         .catch(function(error) {});
     },
@@ -160,10 +176,8 @@ export default {
       //       this.$router.push("/lobby");
       //     });
       // }
-      this.$store.commit("setUserJoined", false)
-      this.$store.dispatch("updateARoom", selectedRoom)
-      
-
+      this.$store.commit("setUserJoined", false);
+      this.$store.dispatch("updateARoom", selectedRoom);
     }
   },
   props: {

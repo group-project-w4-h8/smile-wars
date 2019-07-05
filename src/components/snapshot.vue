@@ -1,10 +1,18 @@
 <template>
   <div>
-    <!-- <v-img >
-    </v-img>-->
-    <video :id="'video'+selectedRoom.player_1" autoplay height="480" width="640" v-show="snapped==false && GCSurl =='' && selectedRoom.player_1 == $store.state.userName"></video>
-    <!-- <video :id="'video'+selectedRoom.player_2" autoplay height="480" width="640" v-show="snapped==false && GCSurl =='' && selectedRoom.player_2 == $store.state.userName"></video> -->
-    <canvas :id="'canvas'+$store.state.userName" height="480" width="640" v-show="GCSurl == '' && snapped == true"></canvas>
+    <video
+      :id="'video'+selectedRoom.player_1"
+      autoplay
+      height="480"
+      width="640"
+      v-show="snapped==false && GCSurl =='' && selectedRoom.player_1 == $store.state.userName"
+    ></video>
+    <canvas
+      :id="'canvas'+$store.state.userName"
+      height="480"
+      width="640"
+      v-show="GCSurl == '' && snapped == true"
+    ></canvas>
     <v-img v-show="GCSurl != ''" :src="GCSurl" style="height: 480px; width: 640px;"></v-img>
     <v-btn id="snap" @click="snapShot">Snap Photo</v-btn>
     <v-btn @click="retake">Retake Photo</v-btn>
@@ -16,7 +24,7 @@
 <script>
 import axios from "axios";
 import { db } from "@/api/config.js";
-import { setTimeout } from 'timers';
+import { setTimeout } from "timers";
 export default {
   name: "snaps",
   props: ["selectedRoom", "player"],
@@ -30,59 +38,42 @@ export default {
   },
   created() {},
   mounted() {
-    
-      let video1 = document.getElementById(`video${this.selectedRoom.player_1}`);
-      // Get access to the camera!
-      if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-        // Not adding `{ audio: true }` since we only want video now
-        navigator.mediaDevices
-          .getUserMedia({
-            video: true
-          })
-          .then(function(stream) {
-            //video.src = window.URL.createObjectURL(stream);
-            video1.srcObject = stream;
-            video1.play();
-          });
-      }
-      // let video2 = document.getElementById(`video${this.selectedRoom.player_2}`);
-      // // Get access to the camera!
-      // if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-      //   // Not adding `{ audio: true }` since we only want video now
-      //   navigator.mediaDevices
-      //     .getUserMedia({
-      //       video: true
-      //     })
-      //     .then(function(stream) {
-      //       //video.src = window.URL.createObjectURL(stream);
-      //       video2.srcObject = stream;
-      //       video2.play();
-      //     });
-      // }
-
+    let video1 = document.getElementById(`video${this.selectedRoom.player_1}`);
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+      navigator.mediaDevices
+        .getUserMedia({
+          video: true
+        })
+        .then(function(stream) {
+          video1.srcObject = stream;
+          video1.play();
+        });
+    }
   },
   methods: {
     update() {
-      setTimeout(()=>{var rooms = this.$store.state.roomList;
-      var id = this.$route.params.id;
-      var index = rooms.findIndex(room => room.id == id);
-      var selectedRoom = rooms[index];
+      setTimeout(() => {
+        var rooms = this.$store.state.roomList;
+        var id = this.$route.params.id;
+        var index = rooms.findIndex(room => room.id == id);
+        var selectedRoom = rooms[index];
 
-      if (selectedRoom.player_1 === this.$store.state.userName) {
-        db.collection("rooms")
-          .doc(this.$route.params.id)
-          .update({
-            player_1_picture: { image: this.GCSurl, score: this.score }
-          })
-          .then(res => {});
-      } else if (selectedRoom.player_2 === this.$store.state.userName) {
-        db.collection("rooms")
-          .doc(this.$route.params.id)
-          .update({
-            player_2_picture: { image: this.GCSurl, score: this.score }
-          })
-          .then(res => {});
-      }}, 5000)
+        if (selectedRoom.player_1 === this.$store.state.userName) {
+          db.collection("rooms")
+            .doc(this.$route.params.id)
+            .update({
+              player_1_picture: { image: this.GCSurl, score: this.score }
+            })
+            .then(res => {});
+        } else if (selectedRoom.player_2 === this.$store.state.userName) {
+          db.collection("rooms")
+            .doc(this.$route.params.id)
+            .update({
+              player_2_picture: { image: this.GCSurl, score: this.score }
+            })
+            .then(res => {});
+        }
+      }, 5000);
     },
     retake() {
       this.GCSurl = "";
@@ -90,7 +81,9 @@ export default {
       this.score = 0;
     },
     snapShot() {
-      var canvas = document.getElementById(`canvas${this.$store.state.userName}`);
+      var canvas = document.getElementById(
+        `canvas${this.$store.state.userName}`
+      );
       var context = canvas.getContext("2d");
       var video = document.getElementById(`video${this.$store.state.userName}`);
 
